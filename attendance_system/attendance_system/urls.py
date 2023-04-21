@@ -25,6 +25,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     # path('api/v1/attedance-auth/', include('authenticaiton_api.urls')),
     path('api/v1/auth/', include('auth_api.urls')),
+
+    path('authentication/', include('authentication.urls')),
+
     
 
 ]
