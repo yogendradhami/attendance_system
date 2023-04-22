@@ -4,3 +4,7 @@ from django.shortcuts import render
 def Index(request):
 
     return render(request, 'layouts/master.html')
+
+def Profile(request):
+
+    return render(request, '/user-profile.html')
