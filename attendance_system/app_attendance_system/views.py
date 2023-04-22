@@ -7,4 +7,9 @@ def Index(request):
 
 def Profile(request):
 
-    return render(request, '/user-profile.html')
+    return render(request, 'profile/users-profile.html')
+
+def Dashboard(request):
+
+    return render(request, 'components/dashboard.html')
+
