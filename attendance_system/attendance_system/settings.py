@@ -145,3 +145,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+AUTH_USER_MODEL='app_attendance_system.CustomUser'
