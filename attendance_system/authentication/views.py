@@ -1,9 +1,10 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth import login,logout
+from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
+from app_attendance_system.email import EmailBackEnd
 
 
 # Create your views here.
@@ -12,7 +13,29 @@ class LoginView(View):
         return render(request, 'authentication/login.html')
 
     def post(self, request):
-        return render(request, 'authentication/login.html')
+        if request.method == 'POST':
+            user = EmailBackEnd.authenticate(request,
+                        username=request.POST.get('email'),
+                        password=request.POST.get('password'),)
+            if user!=None:
+                login(request,user)
+                user_type = user.user_type
+                if user_type =='1':
+                    return HttpResponse ("This is admin pannel")
+                
+                elif user_type=='2':
+                    return HttpResponse ("This is staff pannel")
+                
+                elif user_type =='3':
+                    return HttpResponse ("This is student pannel")
+                else:
+                    messages.success(request, "You're logged in.")
+                    return redirect('login')
+                
+            else: 
+                messages.success(request, "you're logged In.")
+                return redirect('login')
+
 
 class RegisterView(View):
     def get(self,request):
