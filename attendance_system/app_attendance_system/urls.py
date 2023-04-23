@@ -10,6 +10,8 @@ urlpatterns = [
     path('update-profile/', views.UpdateProfile, name='update-profile'),
     
     path('dashboard/', views.Dashboard, name='dashboard'),
+
     path('hod/', views.Hod, name='hod'),
+    path('hod/add-student/', views.HodAddStudent, name='add-student'),
 ]
 
