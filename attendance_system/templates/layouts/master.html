@@ -18,15 +18,17 @@
 
 
       <div class="main-wrapper">
-         {% block content %}
-         
-         {% endblock  %}
+     
 
          {% include "components/header.html" %}
          {% include "components/sidebar.html" %}
 
 
          <div class="page-wrapper">
+                {% block content %}
+         
+         {% endblock  %}
+
             {% include "components/footer.html" %}
       </div>
    </div>

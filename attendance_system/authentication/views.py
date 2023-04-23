@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from app_attendance_system.email import EmailBackEnd
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -22,12 +23,12 @@ class DoLoginView(View):
         if request.method == 'POST':
             user = EmailBackEnd.authenticate(request,
                         username=request.POST.get('email'),
-                        password=request.POST.get('password'),)
+                        password=request.POST.get('password'))
             if user!=None:
                 login(request,user)
                 user_type = user.user_type
                 if user_type =='1':
-                    return HttpResponse ("This is admin pannel")
+                    return redirect ("hod")
                 
                 elif user_type=='2':
                     return HttpResponse ("This is staff pannel")
@@ -35,11 +36,12 @@ class DoLoginView(View):
                 elif user_type =='3':
                     return HttpResponse ("This is student pannel")
                 else:
-                    messages.success(request, "You're logged in.")
+                    messages.success(request, "you're logged In.")
                     return redirect('login')
                 
-            else: 
-                messages.success(request, "you're logged In.")
+            else:
+                messages.error(request, "username and password are invalid.")
+                
                 return redirect('login')
 
 
@@ -68,8 +70,7 @@ class RegisterView(View):
 
 
 class LogoutView(View):
-    def get(self,request):
-        pass
-
-    def post(self, request):
-        pass
+    def get(self, request):
+        logout(request)
+        messages.success(request, "You're Logged Out !!")
+        return redirect('login')

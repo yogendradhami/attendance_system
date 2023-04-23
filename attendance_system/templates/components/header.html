@@ -11,6 +11,9 @@
     <a href="javascript:void(0);" id="toggle_btn">
     <i class="fas fa-align-left"></i>
     </a>
+    <div class="top-nav-search mt-3">
+      <h4><strong>Welcome</strong>&nbsp;<span>{{user.first_name}} {{user.last_name}}</span></h4> 
+    </div>
     <div class="top-nav-search">
        <form>
           <input type="text" class="form-control" placeholder="Search here">
@@ -101,13 +104,21 @@
                    <img src="{% static 'assets/img/profiles/avatar-01.jpg' %}" alt="User Image" class="avatar-img rounded-circle">
                 </div>
                 <div class="user-text">
-                   <h6>Ryan Taylor</h6>
-                   <p class="text-muted mb-0">Administrator</p>
+                   <h6>{{user.first_name}} &nbsp; {{user.last_name}} </h6>
+                   
+                   {% if user.user_type == '1' %}
+                   <p class="text-muted mb-0">Head Of Department</p>
+                   {% elif user.user_type == '2' %}
+                   <p class="text-muted mb-0">Staff</p>
+                   {% else %}
+                   <p class="text-muted mb-0">Student</p>
+                   {% endif %}
+                   
                 </div>
              </div>
-             <a class="dropdown-item" href="profile.html">My Profile</a>
+             <a class="dropdown-item" href="{% url 'profile' %}">My Profile Update</a>
              <a class="dropdown-item" href="inbox.html">Inbox</a>
-             <a class="dropdown-item" href="login.html">Logout</a>
+             <a class="dropdown-item" href="{% url 'logout'%}">Logout</a>
           </div>
        </li>
     </ul>

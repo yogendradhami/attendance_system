@@ -18,7 +18,7 @@ def Dashboard(request):
 
 # hod views
 def Hod(request):
-    pass
+    return render(request, 'hod/hod.html')
 
 # staff views
 def staff(request):

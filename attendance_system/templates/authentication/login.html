@@ -12,6 +12,8 @@
 {% block content %}
 
       <div class="main-wrapper login-body">
+
+
          <div class="login-wrapper">
             <div class="container">
                <div class="loginbox">
@@ -22,6 +24,12 @@
                      <div class="login-right-wrap">
                         <h1>Login</h1>
                         <p class="account-subtitle">Access to our dashboard</p>
+                        
+                        
+                        <!-- messeage section -->
+                           {% include "partials/_message.html" %}
+
+                           
                         <form action="{% url 'dologin' %}" method= "post">
                           {% csrf_token %}
                            <div class="form-group">
