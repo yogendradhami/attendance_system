@@ -7,7 +7,7 @@ urlpatterns = [
 
     # profile update
     path('profile/', views.Profile, name='profile'),
-    path('add-profile/', views.AddProfile, name='add-profile'),
+    path('update-profile/', views.UpdateProfile, name='update-profile'),
     
     path('dashboard/', views.Dashboard, name='dashboard'),
     path('hod/', views.Hod, name='hod'),
