@@ -10,6 +10,6 @@ class CustomUser(AbstractUser):
         (3, 'STUDENT'),
     }
 
-    user_type= models.CharField(choices=USER, max_length=1)
+    user_type= models.CharField(choices=USER, max_length=1, default=1)
     profile_pic = models.ImageField(upload_to='static/prifile_pic')
     

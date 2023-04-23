@@ -8,6 +8,10 @@ def Profile(request):
 
     return render(request, 'profile/users-profile.html')
 
+def AddProfile(request):
+
+    return render(request, 'profile/add_profile.html')
+
 def Dashboard(request):
 
     return render(request, 'components/dashboard.html')

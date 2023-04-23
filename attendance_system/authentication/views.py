@@ -9,6 +9,12 @@ from app_attendance_system.email import EmailBackEnd
 
 # Create your views here.
 class LoginView(View):
+      def get(self,request):
+        return render(request, 'authentication/login.html')
+      def post(self,  request):
+        return render(request, 'authentication/login.html')
+
+class DoLoginView(View):
     def get(self,request):
         return render(request, 'authentication/login.html')
 
