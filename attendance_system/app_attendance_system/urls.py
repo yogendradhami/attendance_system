@@ -38,5 +38,11 @@ urlpatterns = [
     path('hod/update-subject/', views.UpdateSubject, name='update-subject'),
     path('hod/delete-subject/<str:id>', views.DeleteSubject, name='delete-subject'),
 
+    path('hod/add-session/', views.AddSession, name='add-session'),
+    path('hod/view-session/', views.ViewSession, name='view-session'),
+    path('hod/edit-session/<str:id>', views.EditSession, name='edit-session'),
+    path('hod/update-session/', views.UpdateSession, name='update-session'),
+    path('hod/delete-session/<str:id>', views.DeleteSession, name='delete-session'),
+
 ]
 

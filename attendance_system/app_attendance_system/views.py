@@ -389,3 +389,53 @@ def DeleteSubject(request, id):
     subject.delete()
     messages.success(request, "Student Records Deleted Successfully.")
     return redirect('view-subject')
+
+def AddSession(request):
+    if request.method=='POST':
+        session_year_start= request.POST.get('session_year_start')
+        session_year_end = request.POST.get('session_year_end')
+        session= Session_Year(
+            session_start= session_year_start,
+            session_end= session_year_end
+        )
+        session.save()
+        messages.success(request, "Session Are Successfully Created.")
+        return redirect('add-session')
+    return render(request,'hod/add_session.html')
+
+def ViewSession(request):
+    session = Session_Year.objects.all()
+
+    context={
+        'session':session
+    }
+    return render(request,'hod/view_session.html',context)
+
+def EditSession(request, id):
+    session = Session_Year.objects.filter(id=id)
+    context={
+        'session':session
+    }
+    return render(request,'hod/edit_session.html',context)
+
+def UpdateSession(request):
+    if request.method == 'POST':
+        session_id= request.POST.get('session_id')
+        session_year_start= request.POST.get('session_year_start')
+        session_year_end= request.POST.get('session_year_end')
+
+        session= Session_Year(
+            id=session_id,
+            session_start= session_year_start,
+            session_end=session_year_end,
+        )
+        session.save()
+        messages.success(request, "Session Updated Successfully.")
+        return redirect('view-session')
+
+def DeleteSession(request, id):
+        session=Session_Year.objects.filter(id=id)
+        session.delete()
+        messages.success(request, "Session Records Deleted Successfully.")
+        return redirect('view-session')
+
