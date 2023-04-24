@@ -434,7 +434,7 @@ def UpdateSession(request):
         return redirect('view-session')
 
 def DeleteSession(request, id):
-        session=Session_Year.objects.filter(id=id)
+        session=Session_Year.objects.get(id=id)
         session.delete()
         messages.success(request, "Session Records Deleted Successfully.")
         return redirect('view-session')
