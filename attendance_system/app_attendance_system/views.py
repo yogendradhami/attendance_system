@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject
 from django.contrib import messages
 
 # Create your views here.
@@ -322,3 +322,70 @@ def HodDeleteStaff(request, admin):
 # student view
 def student(request):
     pass
+
+def AddSubject(request):
+    cource= Cource.objects.all()
+    staff= Staff.objects.all()
+
+    context= {'cource':cource, 'staff':staff}
+
+    if request.method == 'POST':
+        subject_name=request.POST.get('subject_name')
+        cource_id=request.POST.get('cource_id')
+        staff_id=request.POST.get('staff_id')
+        cource=Cource.objects.get(id=cource_id)
+        staff=Staff.objects.get(id=staff_id)
+        subject=Subject(
+            name=subject_name,
+            cource=cource,
+            staff=staff
+        )
+        subject.save()
+        messages.success(request, "Subject Are Added Successfully .")
+        return redirect('add-subject')
+    return render(request, 'hod/add_subject.html', context)
+
+def ViewSubject(request):
+    subject= Subject.objects.all()
+    context= {
+        'subject':subject
+    }
+    return render(request, 'hod/view_subject.html', context)
+
+def EditSubject(request, id):
+    subject=Subject.objects.get(id=id)
+    cource=Cource.objects.all()
+    staff=Staff.objects.all()
+    context= {
+        'subject':subject,
+        'cource':cource,
+        'staff':staff,
+    }
+
+    return render(request, 'hod/edit_subject.html', context)
+
+def UpdateSubject(request):
+    if request.method== 'POST':
+        subject_id=request.POST.get('subject_id')
+        subject_name=request.POST.get('subject_name')
+        cource_id= request.POST.get('cource_id')
+        staff_id = request.POST.get('staff_id')
+        # print(subject_id,cource_id,staff_id)
+        cource=Cource.objects.get(id=cource_id)
+        staff=Staff.objects.get(id= staff_id)
+
+        subject= Subject(
+            id=subject_id,
+            name=subject_name,
+            cource=cource,
+            staff=staff
+        )
+        subject.save()
+        messages.success(request, "Subjects are Updated Successfully.")
+        return  redirect('view-subject')
+
+def DeleteSubject(request, id):
+    subject=Subject.objects.filter(id=id)
+    subject.delete()
+    messages.success(request, "Student Records Deleted Successfully.")
+    return redirect('view-subject')

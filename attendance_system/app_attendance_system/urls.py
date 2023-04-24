@@ -29,7 +29,14 @@ urlpatterns = [
     path('hod/view-staff/', views.hodViewStaff, name='view-staff'),
     path('hod/edit-staff/<str:id>/', views.hodEditStaff, name='edit-staff'),
     path('hod/update-staff/', views.hodUpdateStaff, name='update-staff'),
-    path('hod/delete-staff/<str:admin>', views.HodDeleteStaff, name='delete-staff'),
+    path('hod/delete-staff/<str:admin>/', views.HodDeleteStaff, name='delete-staff'),
+
+
+    path('hod/add-subject/', views.AddSubject, name='add-subject'),
+    path('hod/view-subject/', views.ViewSubject, name='view-subject'),
+    path('hod/edit-subject/<str:id>', views.EditSubject, name='edit-subject'),
+    path('hod/update-subject/', views.UpdateSubject, name='update-subject'),
+    path('hod/delete-subject/<str:id>', views.DeleteSubject, name='delete-subject'),
 
 ]
 
