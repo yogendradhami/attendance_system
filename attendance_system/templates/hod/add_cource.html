@@ -1,0 +1,45 @@
+{% extends "layouts/master.html" %} 
+{% load static %} 
+
+{% block title %} 
+Add cource
+{% endblock title %} 
+
+{% block style_css %} 
+
+{% endblock style_css %} 
+
+{%block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <form action="{% url 'add-cource' %}" method= "post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            
+              <div class="col-12">
+                  <!-- messeage section -->
+                  {% include "partials/_message.html" %}
+                <h5 class="form-title"><span>Add Cource</span></h5>
+              </div>
+  
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Cource Name</label>
+                  <input type="text" class="form-control" name="cource_name" required  />
+                </div>
+              </div>
+ 
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Add Cource</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock %}

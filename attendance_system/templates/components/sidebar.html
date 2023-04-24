@@ -22,9 +22,9 @@
                 <a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
                 <ul>
                    {% comment %} <li><a href="students.html">Student List</a></li> {% endcomment %}
-                   <li><a href="#"> View Student</a></li>
+                   <li><a href="{% url 'view-student' %}"> View Student</a></li>
                    <li><a href="{% url 'add-student' %}">Add Student</a></li>
-                   {% comment %} <li><a href="edit-student.html">Student Edit</a></li> {% endcomment %}
+                   {% comment %} <li><a href="{% url 'edit-student' %}">Edit Student</a></li> {% endcomment %}
                 </ul>
              </li>
              <li class="submenu">
@@ -39,9 +39,9 @@
              <li class="submenu">
                 <a href="#"><i class="fa fa-graduation-cap"></i> <span> Cource</span> <span class="menu-arrow"></span></a>
                 <ul>
-                   <li><a href="departments.html">Cource View</a></li>
-                   <li><a href="add-department.html">Cource Add</a></li>
-                   <li><a href="edit-department.html">Cource Edit</a></li>
+                   <li><a href="{% url 'view-cource' %}">View Cource</a></li>
+                   <li><a href="{% url 'add-cource' %}">Add Cource</a></li>
+                   <li><a href="edit-department.html">Edit Cource </a></li>
                 </ul>
              </li>
              <li class="submenu">

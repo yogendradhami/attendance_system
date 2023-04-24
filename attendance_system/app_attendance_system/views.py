@@ -101,16 +101,125 @@ def HodAddStudent(request):
             messages.success(request, user.first_name + '  ' + user.last_name + ' ' + 'is Successfully Saved as a Student.')
             return redirect('add-student')
 
-            
-
-        
-
-
     context= {
         'cource':cource,
         'session_year':session_year
     }
     return render(request, 'hod/add_student.html', context)
+
+def HodViewStudent(request):
+    student = Student.objects.all()
+    context= {
+        'student':student
+    }
+    return render(request, 'hod/view_student.html',context)
+
+def HodEditStudent(request,id):
+    student= Student.objects.filter(id=id)
+    cource= Cource.objects.all()
+    session_year=Session_Year.objects.all()
+    context= {
+        'student':student,
+        'cource':cource,
+        'session_year':session_year
+    }
+    return render(request, 'hod/edit_student.html',context)
+
+def HodUpdateStudent(request):
+        if request.method== 'POST':
+            student_id=request.POST.get('student_id')
+            first_name= request.POST.get('first_name')
+            last_name=request.POST.get("last_name")
+            email=request.POST.get('email')
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+            address=request.POST.get('address')
+            gender=request.POST.get('gender')
+            cource_id=request.POST.get('cource_id')
+            session_year_id=request.POST.get('session_year_id')
+            profile_pic=request.FILES.get('profile_pic')
+
+            user= CustomUser.objects.get(id=student_id)
+            user.first_name=first_name
+            user.last_name=last_name
+            user.email=email
+            user.username=username
+            if password != None and password != "":
+                user.set_password(password)
+
+            if profile_pic != None and profile_pic !="":
+                user.profile_pic = profile_pic
+                user.save()
+       
+
+            student=Student.objects.get(admin=student_id)
+            student.address=address
+            student.gender=gender
+            
+            cource= Cource.objects.get(id=cource_id)
+            student.cource_id=cource
+
+            session_year=Session_Year.objects.get(id=session_year_id)
+            student.session_year_id=session_year
+            student.save()
+            messages.success(request, "Records Are Successfully Updated")
+            return redirect('view-student')
+
+        return render(request, 'hod/edit_student.html')
+
+def HodDeleteStudent(request, admin):
+    student=CustomUser.objects.get(id=admin)
+    student.delete()
+    messages.success(request,'User Deleted Successfully.')
+    return redirect('view-student')
+
+
+def HodAddCource(request):
+    # cource=Cource.objects.all()
+    if request.method== 'POST':
+        cource_name=request.POST.get('cource_name')
+        # print(cource_name)
+        cource=Cource(name=cource_name)
+        cource.save()
+        messages.success(request, "Cource Successfully Created.")
+        return redirect('add-cource')
+    return render(request, 'hod/add_cource.html')
+
+def HodViewCource(request):
+    cource=Cource.objects.all()
+    print(cource)
+
+    context= {
+        'cource':cource
+    }
+
+    return render(request, 'hod/view_cource.html',context)
+
+def HodEditCource(request,id):
+        cource=Cource.objects.get(id=id)
+        context= {
+            'cource':cource
+        }
+        return render(request, 'hod/edit_cource.html',context)
+def HodUpdateCource(request):
+        if request.method=='POST':
+            name=request.POST.get('cource_name')
+            cource_id=request.POST.get('cource_id')
+            # print(cource_name,cource_id)
+            cource=Cource.objects.get(id=cource_id)
+            cource.name=name
+            cource.save()
+            messages.success(request, 'Cource Are Updated Successfully.')
+            return redirect('view-cource')
+        
+        return render(request, 'hod/edit_cource.html')
+
+def HodDeleteCource(request,id):
+    cource=Cource.objects.get(id=id)
+    cource.delete()
+    messages.success(request, "Cource are Successfully Deleted.")
+    return redirect('view-cource')
+    return render(request, 'hod/edit_cource.html')
 
 # staff views
 def staff(request):

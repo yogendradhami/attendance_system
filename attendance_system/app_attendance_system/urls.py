@@ -13,5 +13,17 @@ urlpatterns = [
 
     path('hod/', views.Hod, name='hod'),
     path('hod/add-student/', views.HodAddStudent, name='add-student'),
+    path('hod/view-student/', views.HodViewStudent, name='view-student'),
+
+    path('hod/edit-student/<str:id>/', views.HodEditStudent, name='edit-student'),
+    path('hod/update-student/', views.HodUpdateStudent, name='update-student'),
+    path('hod/delete-student/<str:admin>/', views.HodDeleteStudent, name='delete-student'),
+
+    path('hod/add-cource/', views.HodAddCource, name='add-cource'),
+    path('hod/view-cource/', views.HodViewCource, name='view-cource'),
+    path('hod/edit-cource/<str:id>/', views.HodEditCource, name='edit-cource'),
+    path('hod/update-cource/', views.HodUpdateCource, name='update-cource'),
+    path('hod/delete-cource/<str:id>/', views.HodDeleteCource, name='delete-cource'),
+
 ]
 

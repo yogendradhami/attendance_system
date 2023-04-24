@@ -2,7 +2,7 @@
 {% load static %} 
 
 {% block title %} 
-Add Student
+Edit Student 
 {% endblock title %} 
 
 {% block style_css %} 
@@ -15,7 +15,7 @@ Add Student
     <div class="col-sm-12">
       <div class="card">
         <div class="card-body">
-          <form action="{% url 'add-student' %}" method= "post" enctype='multipart/form-data'>
+          <form action="{% url 'update-student' %}" method= "post" enctype='multipart/form-data'>
             {% csrf_token %}
             
               <div class="col-12">
@@ -27,44 +27,44 @@ Add Student
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>First Name</label>
-                  <input type="text" class="form-control" name="first_name" required  />
+                  <input type="text" class="form-control" name="first_name" value="{% for i in student %}{{i.admin.first_name}}{% endfor %}"/>
                 </div>
               </div>
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>Last Name</label>
-                  <input type="text" class="form-control" name="last_name" required  />
+                  <input type="text" class="form-control" name="last_name" value="{% for i in student %}{{i.admin.last_name}}{% endfor %}" />
                 </div>
               </div>
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>Email</label>
-                  <input type="email" class="form-control"  name="email" required  />
+                  <input type="email" class="form-control"  name="email"  value="{% for i in student %}{{i.admin.email}}{% endfor %}" />
                 </div>
               </div>
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>Username</label>
-                  <input type="text" class="form-control"  name="username" required   />
+                  <input type="text" class="form-control"  name="username" value="{% for i in student %}{{i.admin.username}}{% endfor %}" required   />
                 </div>
               </div>
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" class="form-control" name= "password" required />
+                  <input type="password" class="form-control" name= "password" placeholder="fill only if you want to change the password " />
                 </div>
               </div>
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>Address</label>
-                  <input type="text" class="form-control" name= "address" required  />
+                  <input type="text" class="form-control" name= "address" value="{% for i in student %}{{i.address}}{% endfor %}" />
                 </div>
               </div>
 
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                    <label>Gender</label>
-                   <select class="form-control" name="gender" required >
+                   <select class="form-control" name="gender"  value=""  >
                       <option>Select Gender</option>
                       <option>Female</option>
                       <option>Male</option>
@@ -75,7 +75,7 @@ Add Student
               <div class="col-12 col-sm-6">
                 <div class="form-group" >
                    <label>Cource</label>
-                   <select class="form-control" name="cource_id" required >
+                   <select class="form-control" name="cource_id">
                       <option>Select Cource</option>
                       {% for i in cource %}
                       <option value= {{i.id}}>{{i.name}}</option>
@@ -88,7 +88,7 @@ Add Student
               <div class="col-12 col-sm-6">
                 <div class="form-group" >
                    <label>Session Year</label>
-                   <select class="form-control" name= "session_year_id" required >
+                   <select class="form-control" name= "session_year_id" >
                       <option>Select Session Year</option>
                       {% for i in session_year  %}
                        <option value={{i.id}}>{{i.session_start}} To {{i.session_end}}</option>
@@ -102,11 +102,12 @@ Add Student
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>Profile Pic</label>
-                  <input type="file" class="form-control" name="profile_pic" required  />
+                  <input type="file" class="form-control" name="profile_pic"   />
+                  <input type="text" class="form-control" name="student_id" value="{% for i in student %} {{i.admin.id}} {%endfor%}" required hidden />
                 </div>
               </div>
               <div class="col-12">
-                <button type="submit" class="btn btn-primary">Add Student</button>
+                <button type="submit" class="btn btn-primary">Update Student</button>
               </div>
           </form>
         </div>
