@@ -149,7 +149,7 @@ def HodUpdateStudent(request):
 
             if profile_pic != None and profile_pic !="":
                 user.profile_pic = profile_pic
-                user.save()
+            user.save()
        
 
             student=Student.objects.get(admin=student_id)
@@ -294,12 +294,13 @@ def hodUpdateStaff(request):
             user.last_name=last_name
             user.email=email
             user.username=username
+
             if password != None and password != "":
                 user.set_password(password)
 
             if profile_pic != None and profile_pic !="":
                 user.profile_pic = profile_pic
-                user.save()
+            user.save()
 
             staff=Staff.objects.get(admin=staff_id)
             staff.address=address
@@ -311,7 +312,13 @@ def hodUpdateStaff(request):
             return redirect('view-staff')
             return render(request, 'hod/edit_staff.html')
 
+def HodDeleteStaff(request, admin):
+    staff=CustomUser.objects.get(id=admin)
+    staff.delete()
+    messages.success(request, "Staff Records Are Successfully Deleted.")
+    return redirect('view-staff')
 
+    
 # student view
 def student(request):
     pass

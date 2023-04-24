@@ -29,6 +29,7 @@ urlpatterns = [
     path('hod/view-staff/', views.hodViewStaff, name='view-staff'),
     path('hod/edit-staff/<str:id>/', views.hodEditStaff, name='edit-staff'),
     path('hod/update-staff/', views.hodUpdateStaff, name='update-staff'),
+    path('hod/delete-staff/<str:admin>', views.HodDeleteStaff, name='delete-staff'),
 
 ]
 
