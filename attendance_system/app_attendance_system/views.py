@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff
 from django.contrib import messages
 
 # Create your views here.
@@ -222,8 +222,95 @@ def HodDeleteCource(request,id):
     return render(request, 'hod/edit_cource.html')
 
 # staff views
-def staff(request):
-    pass
+def HodAddStaff(request):
+    if request.method=='POST':
+        first_name= request.POST.get('first_name')
+        last_name=request.POST.get("last_name")
+        email=request.POST.get('email')
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        address=request.POST.get('address')
+        gender=request.POST.get('gender')
+        profile_pic=request.FILES.get('profile_pic')
+        # print(first_name,last_name,username,email,password,address,gender,profile_pic)
+
+        if CustomUser.objects.filter(email=email).exists():
+            messages.warning(request, "The Entered Email Is Already Exists.")
+            return redirect('add-staff')
+        if CustomUser.objects.filter(username=username).exists():
+            messages.warning(request, "The Entered Username Is Already Taken.")
+            return redirect('add-staff')
+        
+        else:
+            user= CustomUser(first_name=first_name,last_name=last_name, email=email,username=username, profile_pic=profile_pic,user_type=2)
+            user.set_password(password)
+            user.save()
+
+            staff = Staff(
+                admin=user,
+                address=address,
+                gender=gender
+
+            )
+            staff.save()
+
+            messages.success(request, user.first_name + '  ' + user.last_name + ' ' + 'is Successfully Saved as a Staff.')
+            return redirect('view-staff')
+
+    return render(request, 'hod/add_staff.html')
+
+def hodViewStaff(request):
+    staff= Staff.objects.all()
+    print(staff)
+    context={
+        'staff':staff
+    }
+
+    return render(request, 'hod/view_staff.html', context)
+
+def hodEditStaff(request ,id):
+    staff= Staff.objects.get(id=id)
+    context={'staff':staff}
+ 
+
+    return render(request, 'hod/edit_staff.html',context)
+
+
+def hodUpdateStaff(request):
+         if request.method == 'POST':
+            staff_id=request.POST.get('staff_id')
+            first_name= request.POST.get('first_name')
+            last_name=request.POST.get("last_name")
+            email=request.POST.get('email')
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+            address=request.POST.get('address')
+            gender=request.POST.get('gender')
+
+            profile_pic=request.FILES.get('profile_pic')
+
+            user= CustomUser.objects.get(id=staff_id)
+            user.first_name=first_name
+            user.last_name=last_name
+            user.email=email
+            user.username=username
+            if password != None and password != "":
+                user.set_password(password)
+
+            if profile_pic != None and profile_pic !="":
+                user.profile_pic = profile_pic
+                user.save()
+
+            staff=Staff.objects.get(admin=staff_id)
+            staff.address=address
+            staff.gender=gender
+            
+            staff.save()
+
+            messages.success(request, "Staff Records Are Successfully Updated")
+            return redirect('view-staff')
+            return render(request, 'hod/edit_staff.html')
+
 
 # student view
 def student(request):

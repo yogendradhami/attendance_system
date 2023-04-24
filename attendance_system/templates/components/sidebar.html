@@ -31,9 +31,9 @@
                 <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Staff</span> <span class="menu-arrow"></span></a>
                 <ul>
                    {% comment %} <li><a href="teachers.html">Staff</a></li> {% endcomment %}
-                   <li><a href="teacher-details.html">Staff View</a></li>
-                   <li><a href="add-teacher.html">Staff Add</a></li>
-                   <li><a href="edit-teacher.html">Staff Edit</a></li>
+                   <li><a href="{% url 'view-staff' %}">View Staff</a></li>
+                   <li><a href="{% url 'add-staff' %}">Add Staff</a></li>
+                 
                 </ul>
              </li>
              <li class="submenu">
@@ -41,7 +41,7 @@
                 <ul>
                    <li><a href="{% url 'view-cource' %}">View Cource</a></li>
                    <li><a href="{% url 'add-cource' %}">Add Cource</a></li>
-                   <li><a href="edit-department.html">Edit Cource </a></li>
+                  
                 </ul>
              </li>
              <li class="submenu">

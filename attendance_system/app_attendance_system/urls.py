@@ -25,5 +25,10 @@ urlpatterns = [
     path('hod/update-cource/', views.HodUpdateCource, name='update-cource'),
     path('hod/delete-cource/<str:id>/', views.HodDeleteCource, name='delete-cource'),
 
+    path('hod/add-staff/', views.HodAddStaff, name='add-staff'),
+    path('hod/view-staff/', views.hodViewStaff, name='view-staff'),
+    path('hod/edit-staff/<str:id>/', views.hodEditStaff, name='edit-staff'),
+    path('hod/update-staff/', views.hodUpdateStaff, name='update-staff'),
+
 ]
 
