@@ -1,0 +1,91 @@
+{% extends "layouts/master.html" %} 
+{% load static %} 
+
+{% block title %} 
+Staff Leave
+{% endblock title %} 
+
+{% block style_css %} 
+
+{% endblock style_css %} 
+
+{%block content %}
+
+
+<div class="content container-fluid">
+    <div class="page-header">
+       <div class="row align-items-center">
+          <div class="col">
+             <h3 class="page-title">Staff Leave</h3>
+             <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Staff Leave</li>
+             </ul>
+          </div>
+          <div class="col-auto text-right float-right ml-auto">
+             <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+             <a href="add-student.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+          </div>
+       </div>
+    </div>
+    <div class="row">
+      {% include "partials/_message.html" %}
+       <div class="col-sm-12">
+          <div class="card card-table">
+             <div class="card-body">
+                <div class="table-responsive">
+                   <table class="table table-hover table-center mb-0 " id="table_id">
+                      <thead>
+                         <tr>
+                            <th>ID</th>
+                            <th>Staff Name</th>
+                            <th>Leave Date</th>
+                            <th>Message</th>
+                            <th class="text-right">Action</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in staff %}
+                         <tr>
+                            <td>{{ forloop.counter }}</td>
+                            
+                            <td>{{i.staff_id.admin.first_name}}&nbsp;{{i.staff_id.admin.last_name}}</td>
+                            <td>{{i.date}}</td>
+                            <td>{{i.message}}</td>
+
+                            <td class="text-right">
+                               <div class="actions">
+
+                                {% if i.status == 0 %}
+
+                                <a href="{% url 'staff-approve-leave' i.id %}" class="btn btn-sm bg-success-light mr-2">
+                                    Approve
+                                    </a>
+                                    <a href="{% url 'staff-disapprove-leave' i.id %}" class="btn btn-sm bg-danger-light mr-2">
+                                Disapprove
+                                </a>
+                               {% elif i.status == 1 %}
+
+                               <button type="button" class="btn btn-sm bg-success-light mr-2"  disabled="disabled">Approve </button>
+                               
+
+                                {% else  %}
+
+                                <button type="button" class="btn btn-sm bg-success-light mr-2"  disabled="disabled">Disapprove </button>
+                                {% endif %}
+                                  
+                               </div>
+                            </td>
+                         </tr>
+                         {% endfor %}
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
+
+{% endblock %}

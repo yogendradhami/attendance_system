@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave
 from django.contrib import messages
 
 # Create your views here.
@@ -483,3 +483,74 @@ def StaffSaveNotification(request):
 # staff section
 def StaffHome(request):
     return render(request, 'staff/staff_home.html')
+
+
+def StaffNotification(request):
+    staff= Staff.objects.filter(admin =request.user.id )
+    for i in staff:
+        # print(i.id)
+    # print(staff)
+        staff_id=i.id
+
+        notification=Staff_Notification.objects.filter(staff_id=staff_id)
+        context= {'notification':notification} 
+    return render(request, 'staff/staff_notification.html', context)
+
+def MarkAsDone(request, status):
+    notification = Staff_Notification.objects.get(id=status)
+    notification.status=1
+    notification.save()
+
+    return redirect('staff-notification')
+
+def StaffApplyLeave(request):
+    staff= Staff.objects.filter(admin=request.user.id)
+    for i in staff:
+        staff_id= i.id
+
+        staff_leave_history= Staff_Leave.objects.filter(staff_id=staff_id)
+
+        context= {
+            'staff_leave_history':staff_leave_history
+        }
+
+    return render(request, 'staff/apply_leave.html',context)
+
+
+def StaffApplyLeaveSave(request):
+    if request.method== 'POST':
+        leave_date= request.POST.get('leave_date')
+        leave_message=request.POST.get('leave_message')
+        staff= Staff.objects.get(admin=request.user.id)
+
+        leave=Staff_Leave(
+            staff_id=staff,
+            date=leave_date,
+            message=leave_message,
+
+        )
+        leave.save()
+        messages.success(request, "You're Request Sent Successfully.")
+        return redirect('staff-apply-leave')
+
+
+def StaffLeaveView(request):
+    staff= Staff_Leave.objects.all()
+    context= {
+        'staff':staff
+    }
+
+    return render(request, 'hod/staff_leave.html',context)
+
+def StaffApproveLeave(request, id):
+    leave= Staff_Leave.objects.get(id=id)
+    leave.status = 1
+    leave.save()
+    return redirect('staff-leave-view')
+
+def StaffDisapproveLeave(request,id):
+    leave= Staff_Leave.objects.get(id=id)
+    leave.status = 2
+    leave.save()
+    return redirect('staff-leave-view')
+

@@ -44,11 +44,24 @@ urlpatterns = [
     path('hod/update-session/', views.UpdateSession, name='update-session'),
     path('hod/delete-session/<str:id>', views.DeleteSession, name='delete-session'),
 
+
+    # staff Notification view
     path("hod/staff/send-notification/", views.StaffSendNotification, name="staff-send-notificatoin"),
     path("hod/staff/save-notification/", views.StaffSaveNotification, name="staff-save-notificatoin"),
 
+    # staff Leave View
+    path("hod/staff/leave-view/", views.StaffLeaveView, name="staff-leave-view"),
+    path("hod/staff/approve-leave/<str:id>/", views.StaffApproveLeave, name="staff-approve-leave"),
+    path("hod/staff/diapprove-leave/<str:id>/", views.StaffDisapproveLeave, name="staff-disapprove-leave"),
+
+
+
     # this  is staff urls
     path('staff/home/', views.StaffHome,name='staff-home'),
+    path('staff/notification/', views.StaffNotification,name='staff-notification'),
+    path('staff/mark-as-done/<str:status>/', views.MarkAsDone,name='mark-as-done'),
+    path('staff/apply-leave/', views.StaffApplyLeave,name='staff-apply-leave'),
+    path('staff/apply-leave-save', views.StaffApplyLeaveSave,name='staff-apply-leave-save'),
 
 ]
 
