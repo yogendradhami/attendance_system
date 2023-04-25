@@ -31,7 +31,7 @@ class DoLoginView(View):
                     return redirect ("hod")
                 
                 elif user_type=='2':
-                    return HttpResponse ("This is staff pannel")
+                    return redirect ("staff-home")
                 
                 elif user_type =='3':
                     return HttpResponse ("This is student pannel")

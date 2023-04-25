@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification
 from django.contrib import messages
 
 # Create your views here.
@@ -457,3 +457,29 @@ def DeleteSession(request, id):
         messages.success(request, "Session Records Deleted Successfully.")
         return redirect('view-session')
 
+
+# this is views for sending notification
+def StaffSendNotification(request):
+    staff = Staff.objects.all()
+    see_notification= Staff_Notification.objects.all().order_by('-id')[0:5]
+    context={'staff':staff,'see_notification':see_notification}
+    return render(request,'hod/staff_notification.html',context)
+
+def StaffSaveNotification(request):
+    if request.method== "POST":
+        staff_id=request.POST.get('staff_id')
+        message=request.POST.get('message')
+
+        staff = Staff.objects.get(admin= staff_id)
+        notification= Staff_Notification(
+            staff_id=staff,
+            message=message,
+        )
+        notification.save()
+        messages.success(request,"Notification Are Sent Successsully.")
+        return redirect('staff-send-notificatoin')
+        
+
+# staff section
+def StaffHome(request):
+    return render(request, 'staff/staff_home.html')

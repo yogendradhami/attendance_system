@@ -44,5 +44,11 @@ urlpatterns = [
     path('hod/update-session/', views.UpdateSession, name='update-session'),
     path('hod/delete-session/<str:id>', views.DeleteSession, name='delete-session'),
 
+    path("hod/staff/send-notification/", views.StaffSendNotification, name="staff-send-notificatoin"),
+    path("hod/staff/save-notification/", views.StaffSaveNotification, name="staff-save-notificatoin"),
+
+    # this  is staff urls
+    path('staff/home/', views.StaffHome,name='staff-home'),
+
 ]
 
