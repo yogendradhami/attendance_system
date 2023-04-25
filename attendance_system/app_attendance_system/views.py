@@ -46,7 +46,25 @@ def Dashboard(request):
 
 # hod views
 def Hod(request):
-    return render(request, 'hod/hod.html')
+    student_count= Student.objects.all().count()
+    staff_count= Staff.objects.all().count()
+    cource_count= Cource.objects.all().count()
+    subject_count= Subject.objects.all().count()
+
+    student_gender_male = Student.objects.filter(gender='Male').count()
+    student_gender_female= Student.objects.filter(gender='Female').count()
+    # print(student_gender_male,student_gender_female)
+
+    context={
+        'student_count':student_count,
+        'staff_count':staff_count,
+        'cource_count':cource_count,
+        'subject_count':subject_count,
+        'student_gender_male':student_gender_male,
+        'student_gender_female':student_gender_female,
+    }
+
+    return render(request, 'components/dashboard.html',context)
 
 def HodAddStudent(request):
     cource = Cource.objects.all()
