@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback,Student_Leave
 from django.contrib import messages
 
 # Create your views here.
@@ -709,3 +709,51 @@ def StudentFeedbackSave(request):
 
 
     return render(request, "hod/hod_student_feedback.html")
+
+
+def StudentApplyLeave(request):
+    student=Student.objects.get(admin=request.user.id)
+    student_leave_history=  Student_Leave.objects.filter(student_id = student)
+    context = {
+        'student_leave_history':student_leave_history
+    }
+
+    return render(request, "student/apply_leave.html",context)
+
+
+def StudentApplyLeaveSave(request):
+    if request.method == 'POST':
+        leave_date=request.POST.get('leave_date')
+        leave_message=request.POST.get('leave_message')
+        student_id =Student.objects.get(admin= request.user.id)
+        student_leave= Student_Leave(
+            student_id=student_id,
+            date=leave_date,
+            message=leave_message,
+        )
+        student_leave.save()
+        messages.success(request,"Student Leave Successfully  Sent.")
+        return redirect('student-apply-leave')
+    
+# hod student leave view
+
+def StudentLeaveView(request):
+    student_leave= Student_Leave.objects.all()
+    context= {
+        'student_leave':student_leave
+    }
+    return render(request, "hod/student_leave.html", context)
+
+def StudentApproveLeave(request, id):
+    leave=Student_Leave.objects.get(id=id)
+    leave.status= 1
+    leave.save()
+
+    return redirect('student-leave-view')
+
+def StudentDisapproveLeave(request, id):
+    leave=Student_Leave.objects.get(id=id)
+    leave.status= 2
+    leave.save()
+
+    return redirect('student-leave-view')

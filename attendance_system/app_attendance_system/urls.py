@@ -64,11 +64,16 @@ urlpatterns = [
     
     
 
-    # staff Leave View
+    #hod staff Leave View
     path("hod/staff/leave-view/", views.StaffLeaveView, name="staff-leave-view"),
     path("hod/staff/approve-leave/<str:id>/", views.StaffApproveLeave, name="staff-approve-leave"),
     path("hod/staff/diapprove-leave/<str:id>/", views.StaffDisapproveLeave, name="staff-disapprove-leave"),
 
+    # hod student leave url
+    path("hod/student/leave-view/", views.StudentLeaveView, name="student-leave-view"),
+    path("hod/student/approve-leave/<str:id>/", views.StudentApproveLeave, name="student-approve-leave"),
+    path("hod/student/diapprove-leave/<str:id>/", views.StudentDisapproveLeave, name="student-disapprove-leave"),
+    
 
 
     # this  is staff urls
@@ -88,6 +93,12 @@ urlpatterns = [
     path('student/mark-as-done/<str:status>/', views.StudentMarkAsDone,name='student-mark-as-done'),
     path('student/feedback/', views.StudentFeedback,name='student-feedback'),
     path('student/save-feedback', views.StudentSaveFeedback,name='student-save-feedback'),
+
+    path('student/apply-leave', views.StudentApplyLeave,name='student-apply-leave'),
+
+    path('student/apply-leave-save', views.StudentApplyLeaveSave,name='student-apply-leave-save'),
+
+
 
 
 

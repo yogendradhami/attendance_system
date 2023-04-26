@@ -81,7 +81,7 @@
                <a href="{% url 'staff-leave-view' %}"><i class="fas fa-envelope"></i> <span>Staff Leave</span></a>
             </li>
              <li>
-               <a href="holiday.html"><i class="fas fa-envelope"></i> <span>Student Leave</span></a>
+               <a href="{% url 'student-leave-view' %}"><i class="fas fa-envelope"></i> <span>Student Leave</span></a>
             </li>
              <li>
                <a href="holiday.html"><i class="fa fa-sign-out-alt"></i> <span>Logout</span></a>
@@ -238,8 +238,8 @@
             <a href="{% url 'hod' %}"><i class="fas fa-poll"></i> <span>View Result</span></a>
          </li>
          </li>
-           <li class="{% active_link 'hod' 'active' %}">
-            <a href="{% url 'hod' %}"><i class="fas fa-envelope-open"></i> <span>Apply For Leave</span></a>
+           <li class="{% active_link 'student-apply-leave' 'active' %}">
+            <a href="{% url 'student-apply-leave' %}"><i class="fas fa-envelope-open"></i> <span>Apply For Leave</span></a>
          </li>
          </li>
            <li class="{% active_link 'student-feedback' 'active' %}">
