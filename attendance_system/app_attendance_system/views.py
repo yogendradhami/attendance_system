@@ -488,12 +488,12 @@ def StaffHome(request):
 def StaffNotification(request):
     staff= Staff.objects.filter(admin =request.user.id )
     for i in staff:
-        # print(i.id)
-    # print(staff)
         staff_id=i.id
 
         notification=Staff_Notification.objects.filter(staff_id=staff_id)
-        context= {'notification':notification} 
+        context = {
+            'notification':notification,
+            } 
     return render(request, 'staff/staff_notification.html', context)
 
 def MarkAsDone(request, status):
@@ -622,7 +622,7 @@ def StudentSendNotification(request):
 
 
 def StudentSaveNotification(request):
-    if request.method== 'POST':
+    if request.method == 'POST':
         message= request.POST.get('message')
         student_id= request.POST.get('student_id')
 
@@ -635,3 +635,22 @@ def StudentSaveNotification(request):
         stud_notification.save()
         messages.success(request, "Student Notification  are Successfully Sent.")
         return redirect("student-send-notificatoin")
+
+def StudentNotification(request):
+    student =Student.objects.filter(admin= request.user.id)
+    for i in student:
+        student_id= i.id
+        notification =Student_Notification.objects.filter(student_id= student_id)
+        # print(notification)
+        context = {
+            'notification':notification,
+        }
+    return render(request, "student/student_notification.html",context)
+
+
+def StudentMarkAsDone(request,  status):
+    notification = Student_Notification.objects.get(id= status)
+    notification.status = 1
+    notification.save()
+    return redirect('student-notification')
+

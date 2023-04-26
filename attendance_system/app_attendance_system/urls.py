@@ -78,6 +78,10 @@ urlpatterns = [
 
     # urls for student
     path('student/home', views.StudentHome,name='student-home'),
+    
+    path('student/notification', views.StudentNotification,name='student-notification'),
+    path('student/mark-as-done/<str:status>/', views.StudentMarkAsDone,name='student-mark-as-done'),
+
 
 
 ]
