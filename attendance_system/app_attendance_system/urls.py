@@ -52,6 +52,13 @@ urlpatterns = [
     path("hod/staff/send-notification/", views.StaffSendNotification, name="staff-send-notificatoin"),
     path("hod/staff/save-notification/", views.StaffSaveNotification, name="staff-save-notificatoin"),
 
+    # student notification view
+    path("hod/student/send-notification/", views.StudentSendNotification, name="student-send-notificatoin"),
+    path("hod/student/save-notification/", views.StudentSaveNotification, name="student-save-notificatoin"),
+
+    
+    
+
     # staff Leave View
     path("hod/staff/leave-view/", views.StaffLeaveView, name="staff-leave-view"),
     path("hod/staff/approve-leave/<str:id>/", views.StaffApproveLeave, name="staff-approve-leave"),

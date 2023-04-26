@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification
 from django.contrib import messages
 
 # Create your views here.
@@ -605,3 +605,33 @@ def StaffFeedbackSave(request):
 
 def StudentHome(request):
     return render(request, 'student/student_home.html')
+
+
+# student notifcation function
+def StudentSendNotification(request):
+    student= Student.objects.all()
+    notification = Student_Notification.objects.all()
+
+
+    context ={
+        'student':student,
+        'notification':notification,
+    }
+
+    return render(request, 'hod/student_notification.html',context)
+
+
+def StudentSaveNotification(request):
+    if request.method== 'POST':
+        message= request.POST.get('message')
+        student_id= request.POST.get('student_id')
+
+        student= Student.objects.get(admin= student_id)
+        stud_notification= Student_Notification(
+            student_id=student,
+            message=message,
+
+        )
+        stud_notification.save()
+        messages.success(request, "Student Notification  are Successfully Sent.")
+        return redirect("student-send-notificatoin")

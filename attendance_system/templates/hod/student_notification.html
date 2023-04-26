@@ -1,0 +1,182 @@
+{% extends "layouts/master.html" %} 
+{% load static %} 
+
+{% block title %} 
+Student Notification
+{% endblock title %} 
+
+{% block style_css %} 
+
+{% endblock style_css %} 
+
+{%block content %}
+
+
+<<div class="content container-fluid">
+    <div class="page-header">
+       <div class="row align-items-center">
+          <div class="col">
+             <h3 class="page-title">Student Notification</h3>
+             <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Student Notificaction</li>
+             </ul>
+          </div>
+          <div class="col-auto text-right float-right ml-auto">
+             <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    View All Notifications
+  </button>
+            
+          </div>
+       </div>
+    </div>
+    <div class="row">
+      {% include "partials/_message.html" %}
+       <div class="col-sm-12">
+          <div class="card card-table">
+             <div class="card-body">
+                <div class="table-responsive">
+                   <table class="table table-hover table-center mb-0 "  id="table_id">
+                      <thead>
+                         <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th class="text-right">Action</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                        {% for i in student %}
+                         <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                               <h2 class="table-avatar">
+                                  <a href="student-details.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="/{{i.admin.profile_pic}}" alt="User Image"></a>
+                                  <a href="student-details.html">{{i.admin.first_name}}&nbsp; {{i.admin.last_name}}</a>
+                               </h2>
+                            </td>
+                            <td>{{i.admin.email}}</td>
+
+                            <td class="text-right">
+               <!-- Button trigger modal -->
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#sendnotification-{{forloop.counter}}">
+    View All Notifications
+  </button>
+                            </td>
+                         </tr>
+                         {% endfor %}
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ 
+
+
+
+
+ 
+ <!--View  all  notification  modal-->
+ <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Student Notification</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        
+
+            <div class="col-sm-12">
+                <div class="card card-table">
+                   <div class="card-body">
+                      <div class="table-responsive">
+                         <table class="table table-hover table-center mb-0 "  id="table_id">
+                            <thead>
+                               <tr>
+                                  
+                                  <th style="width:60%">Message</th>
+                                  <th class="text-right" style="width:30%">Status</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in notification %}
+                               <tr>
+                                  <td>{{i.message}}</td>
+                                  {% if i.status == 0 %}
+                                    <td class="badge badge-pill badge-danger"> Unread the message </td>
+
+                                  {% else %}
+                                  <td class="badge badge-pill badge-success"> Read the message </td>
+                                  
+                                  {% endif %}
+                                
+                                  
+                               </tr>
+                               {% endfor %}
+                            </tbody>
+                         </table>
+                      </div>
+                   </div>
+                </div>
+             </div>
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ <!--View  all  notification  modal-->
+ <!-- Modal -->
+ {% for i in student %}
+<div class="modal fade" id="sendnotification-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendnotification">Send Student Notification To {{i.admin.first_name}}&nbsp;{{i.admin.last_name}} </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         
+            <form method= "post" action="{% url 'student-save-notificatoin' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  
+                  <input type="text" class="form-control" name="message" placeholder= "enter message" >
+                  <input type="text" class="form-control" name="student_id" value="{{i.admin.id}}" hidden>
+              
+                </div>
+               
+               
+                <button type="submit" class="btn btn-primary">Send Student Notificaction</button>
+              </form>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}
