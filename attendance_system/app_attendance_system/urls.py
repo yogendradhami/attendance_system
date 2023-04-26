@@ -62,6 +62,7 @@ urlpatterns = [
     path('staff/mark-as-done/<str:status>/', views.MarkAsDone,name='mark-as-done'),
     path('staff/apply-leave/', views.StaffApplyLeave,name='staff-apply-leave'),
     path('staff/apply-leave-save', views.StaffApplyLeaveSave,name='staff-apply-leave-save'),
+    path('staff/feedback', views.StaffFeedback,name='staff-feedback'),
 
 ]
 

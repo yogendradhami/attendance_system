@@ -116,8 +116,8 @@ def HodAddStudent(request):
 
             )
             student.save()
-            messages.success(request, user.first_name + '  ' + user.last_name + ' ' + 'is Successfully Saved as a Student.')
-            return redirect('add-student')
+            messages.success(request, user.first_name + '  ' + user.last_name + ' ' + 'is Successfully Added As a Student.')
+            return redirect('view-student')
 
     context= {
         'cource':cource,
@@ -554,3 +554,10 @@ def StaffDisapproveLeave(request,id):
     leave.save()
     return redirect('staff-leave-view')
 
+def StaffFeedback(request):
+    staff= Staff_Leave.objects.all()
+    context= {
+        'staff':staff
+    }
+
+    return render(request, 'staff/staff_feedback.html',context)
