@@ -34,7 +34,7 @@ class DoLoginView(View):
                     return redirect ("staff-home")
                 
                 elif user_type =='3':
-                    return HttpResponse ("This is student pannel")
+                    return redirect("student-home")
                 else:
                     messages.success(request, "you're logged In.")
                     return redirect('login')

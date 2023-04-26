@@ -72,7 +72,7 @@
                <a href="holiday.html"><i class="fa fa-calendar"></i> <span>View Attendance</span></a>
             </li>
              <li>
-               <a href="holiday.html"><i class="fas fa-comments"></i> <span>Staff Feedback</span></a>
+               <a href="{% url 'hod-staff-feedback' %}"><i class="fas fa-comments"></i> <span>Staff Feedback</span></a>
             </li>
              <li>
                <a href="holiday.html"><i class="fas fa-comments"></i> <span>Student Feedback</span></a>
@@ -213,7 +213,7 @@
               <a href="{% url 'staff-apply-leave' %}"><i class="fas fa-envelope-open"></i> <span>Apply Leave</span></a>
            </li>
             <li class="{% active_link 'hod' 'active' %}">
-              <a href="{% url 'hod' %}"><i class="fas fa-comment"></i> <span>Send Feedback</span></a>
+              <a href="{% url 'staff-feedback' %}"><i class="fas fa-comment"></i> <span>Send Feedback</span></a>
            </li>
             <li class="{% active_link 'staff-notification' 'active' %}">
               <a href="{% url 'staff-notification' %}"><i class="fas fa-bell"></i> <span>Notifications</span></a>

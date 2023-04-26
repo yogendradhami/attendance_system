@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback
 from django.contrib import messages
 
 # Create your views here.
@@ -555,9 +555,53 @@ def StaffDisapproveLeave(request,id):
     return redirect('staff-leave-view')
 
 def StaffFeedback(request):
-    staff= Staff_Leave.objects.all()
-    context= {
-        'staff':staff
+    staff_id = Staff.objects.get(admin= request.user.id)
+    feedback_history = Staff_feedback.objects.filter(staff_id = staff_id)
+
+    context = {
+        'feedback_history':feedback_history,
     }
 
+
     return render(request, 'staff/staff_feedback.html',context)
+
+
+def StaffSaveFeedback(request):
+    if request.method=='POST':
+        feedback= request.POST.get('feedback')
+        staff= Staff.objects.get(admin=request.user.id)
+        feedback = Staff_feedback(
+            staff_id=staff,
+            feedback=feedback,
+            feedback_reply = "",
+        )
+        feedback.save()
+        messages.success(request, "You're Feedback Sent Successfully.")
+        return redirect('staff-feedback')
+
+    return render(request, 'staff/staff_feedback.html')
+
+#  this view for hod  to send reply to the staff feedback
+def StaffFeedbackSend(request):
+    feedback=Staff_feedback.objects.all()
+    context={
+        'feedback':feedback,
+    }
+    return render(request, 'hod/hod_staff_feedback.html',context)
+
+# HOd reply the feedback 
+def StaffFeedbackSave(request):
+    if request.method == 'POST':
+        feedback_id= request.POST.get('feedback_id')
+        feedback_reply= request.POST.get('feedback_reply')
+        feedback= Staff_feedback.objects.get(id=feedback_id)
+        feedback.feedback_reply= feedback_reply
+        feedback.save()
+
+    return redirect('hod-staff-feedback')
+
+
+# Student views Section
+
+def StudentHome(request):
+    return render(request, 'student/student_home.html')

@@ -40,9 +40,12 @@ urlpatterns = [
 
     path('hod/add-session/', views.AddSession, name='add-session'),
     path('hod/view-session/', views.ViewSession, name='view-session'),
-    path('hod/edit-session/<str:id>', views.EditSession, name='edit-session'),
+    path('hod/edit-session/<str:id>/', views.EditSession, name='edit-session'),
     path('hod/update-session/', views.UpdateSession, name='update-session'),
-    path('hod/delete-session/<str:id>', views.DeleteSession, name='delete-session'),
+    path('hod/delete-session/<str:id>/', views.DeleteSession, name='delete-session'),
+
+    path('hod/staff-feedback/', views.StaffFeedbackSend, name='hod-staff-feedback'),
+    path('hod/staff-save-feedback/', views.StaffFeedbackSave, name='hod-staff-save-feedback'),
 
 
     # staff Notification view
@@ -62,7 +65,13 @@ urlpatterns = [
     path('staff/mark-as-done/<str:status>/', views.MarkAsDone,name='mark-as-done'),
     path('staff/apply-leave/', views.StaffApplyLeave,name='staff-apply-leave'),
     path('staff/apply-leave-save', views.StaffApplyLeaveSave,name='staff-apply-leave-save'),
-    path('staff/feedback', views.StaffFeedback,name='staff-feedback'),
+    path('staff/feedback/', views.StaffFeedback,name='staff-feedback'),
+    path('staff/save-feedback', views.StaffSaveFeedback,name='save-feedback'),
+
+
+    # urls for student
+    path('student/home', views.StudentHome,name='student-home'),
+
 
 ]
 
