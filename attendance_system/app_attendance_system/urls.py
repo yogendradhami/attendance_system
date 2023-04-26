@@ -44,6 +44,11 @@ urlpatterns = [
     path('hod/update-session/', views.UpdateSession, name='update-session'),
     path('hod/delete-session/<str:id>/', views.DeleteSession, name='delete-session'),
 
+    # hod  student feedback pannel
+    path('hod/student-feedback/', views.StudentFeedbackSend, name='hod-student-feedback'),
+    path('hod/student-save-feedback/', views.StudentFeedbackSave, name='hod-student-save-feedback'),
+    
+    # hod staff feedback pannel
     path('hod/staff-feedback/', views.StaffFeedbackSend, name='hod-staff-feedback'),
     path('hod/staff-save-feedback/', views.StaffFeedbackSave, name='hod-staff-save-feedback'),
 
@@ -81,6 +86,8 @@ urlpatterns = [
     
     path('student/notification', views.StudentNotification,name='student-notification'),
     path('student/mark-as-done/<str:status>/', views.StudentMarkAsDone,name='student-mark-as-done'),
+    path('student/feedback/', views.StudentFeedback,name='student-feedback'),
+    path('student/save-feedback', views.StudentSaveFeedback,name='student-save-feedback'),
 
 
 

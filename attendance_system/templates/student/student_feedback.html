@@ -1,0 +1,136 @@
+{% extends "layouts/master.html" %} 
+{% load static %} 
+
+{% block title %} 
+Student Feedback
+{% endblock title %} 
+
+{% block style_css %} 
+
+{% endblock style_css %} 
+
+{%block content %}
+
+
+<div class="content container-fluid">
+    <div class="page-header">
+       <div class="row align-items-center">
+          <div class="col">
+             <h3 class="page-title">Feedback</h3>
+             <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Feedback</li>
+             </ul>
+          </div>
+          <div class="col-auto text-right float-right ml-auto">
+             <button type='button' class="btn btn-primary mr-2"data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-pray"></i>&nbsp; Feedback History</button>
+          </div>
+       </div>
+    </div>
+
+
+    
+<div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <form action="{% url 'student-save-feedback' %}" method= "post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            
+              <div class="col-12">
+                  <!-- messeage section -->
+                  {% include "partials/_message.html" %}
+                <h5 class="form-title"><span>Send Feedback</span></h5>
+              </div>
+  
+             
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Leave Messeage</label>
+                  <textarea type="text" class="form-control" name="feedback" required > </textarea>
+                </div>
+              </div>
+              <div class="col-12">
+                
+                    <button type="submit" class="btn btn-primary">Send Feedback</button>
+                </div>
+                </form>
+              </div>
+              </div>
+              </div>
+
+ </div>
+ <!-- Large modal -->
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class= "modal-header"> 
+        <h5 class="modal-title" id="exampleModalLabel"> Leave Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+          <div class="modal-body">
+
+            <div class="row">
+                {% include "partials/_message.html" %}
+                 <div class="col-sm-12">
+                    <div class="card card-table">
+                       <div class="card-body">
+                          <div class="table-responsive">
+                             <table class="table table-hover table-center mb-0 " id="table_id">
+                                <thead>
+                                   <tr>
+                                      <th>Id</th>
+                                      <th>Feedback</th>
+                                      <th>Reply</th>
+                                      
+                                   </tr>
+                                </thead>
+                                <tbody>
+                                  {% for i in feedback_history %}
+                                   <tr>
+                                      <td>{{ i.id }}</td>
+                                      
+                                      <td>{{i.feedback}}</td>
+                                      
+                                      
+          
+                                      <td class="text-right">
+                                         <div class="actions">
+                                            {% if i.feedback_reply == "" %}
+                                            <td> <span class="badge badge-danger">No Reply</span></td>
+                                      {% else %}
+                                            <td>{{i.feedback_reply }}</td>
+                                            
+                                         
+
+
+                                          {% endif %}
+                                           
+                                         </div>
+                                      </td>
+                                   </tr>
+                                   {% endfor %}
+                                </tbody>
+                             </table>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

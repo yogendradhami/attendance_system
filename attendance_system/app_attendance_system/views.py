@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback
 from django.contrib import messages
 
 # Create your views here.
@@ -584,8 +584,10 @@ def StaffSaveFeedback(request):
 #  this view for hod  to send reply to the staff feedback
 def StaffFeedbackSend(request):
     feedback=Staff_feedback.objects.all()
+    feedback_history= Staff_feedback.objects.all().order_by('-id')[0:5]
     context={
         'feedback':feedback,
+        'feedback_history':feedback_history
     }
     return render(request, 'hod/hod_staff_feedback.html',context)
 
@@ -594,8 +596,10 @@ def StaffFeedbackSave(request):
     if request.method == 'POST':
         feedback_id= request.POST.get('feedback_id')
         feedback_reply= request.POST.get('feedback_reply')
+        
         feedback= Staff_feedback.objects.get(id=feedback_id)
         feedback.feedback_reply= feedback_reply
+        feedback.status = 1
         feedback.save()
 
     return redirect('hod-staff-feedback')
@@ -654,3 +658,54 @@ def StudentMarkAsDone(request,  status):
     notification.save()
     return redirect('student-notification')
 
+
+def StudentFeedback(request):
+    student_id= Student.objects.get(admin=request.user.id)
+    feedback_history=Student_Feedback.objects.filter(student_id=student_id)
+    context=  {
+        'feedback_history':feedback_history,
+    }
+
+    return render(request, 'student/student_feedback.html',context)
+
+
+def StudentSaveFeedback(request):
+    if request.method == 'POST':
+        feedback = request.POST.get('feedback')
+        student= Student.objects.get(admin= request.user.id)
+
+        feedbacks= Student_Feedback(
+            student_id = student,
+            feedback=feedback,
+            feedback_reply= "",
+        )
+        feedbacks.save()
+        messages.success(request, "Student Feedback Sent Successfully.")
+        return redirect('student-feedback')
+    
+
+# Hod Student feedback views
+def StudentFeedbackSend(request):
+    feedback= Student_Feedback.objects.all()
+    feedback_history = Student_Feedback.objects.all().order_by('-id')[0:5]
+    context= {
+        'feedback':feedback,
+        'feedback_history':feedback_history,
+
+    }
+    return render(request, "hod/hod_student_feedback.html",context)
+
+
+def StudentFeedbackSave(request):
+    if request.method == 'POST':
+        feedback_id= request.POST.get('feedback_id')
+        feedback_reply= request.POST.get('feedback_reply')
+
+        feedback= Student_Feedback.objects.get(id=  feedback_id)
+        feedback.feedback_reply= feedback_reply
+        feedback.status=1
+        feedback.save()
+        return redirect('hod-student-feedback')
+
+
+    return render(request, "hod/hod_student_feedback.html")

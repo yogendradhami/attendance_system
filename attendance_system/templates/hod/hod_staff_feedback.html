@@ -109,14 +109,14 @@ Staff Feedback
                                </tr>
                             </thead>
                             <tbody>
-                              {% for i in see_notification %}
+                              {% for i in feedback_history %}
                                <tr>
-                                  <td>{{i.message}}</td>
+                                  <td>{{i.feedback}}</td>
                                   {% if i.status == 0 %}
-                                    <td class="badge badge-pill badge-danger"> Unread the message </td>
+                                    <td><span class="badge badge-pill badge-danger"> No Reply Yet</span></td>
 
                                   {% else %}
-                                  <td class="badge badge-pill badge-success"> Read the message </td>
+                                  <td> {{i.feedback_reply}} </td>
                                   
                                   {% endif %}
                                 
@@ -150,7 +150,7 @@ Staff Feedback
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="sendnotification">Replly To {{i.staff_id.admin.first_name}}&nbsp;{{i.staff_id.admin.last_name}} </h5>
+          <h5 class="modal-title" id="sendnotification">Reply To {{i.staff_id.admin.first_name}}&nbsp;{{i.staff_id.admin.last_name}} </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
