@@ -88,6 +88,7 @@ urlpatterns = [
     # for staff attendace
     path('staff/take-attendance', views.StaffTakeAttendance,name='staff-take-attendance'),
     path('staff/save-attendance', views.StaffSaveAttendance,name='staff-save-attendance'),
+    path('staff/view-attendance', views.StaffviewAttendance,name='staff-view-attendance'),
 
 
     # urls for student
@@ -101,7 +102,10 @@ urlpatterns = [
     path('student/apply-leave', views.StudentApplyLeave,name='student-apply-leave'),
 
     path('student/apply-leave-save', views.StudentApplyLeaveSave,name='student-apply-leave-save'),
+    
+    # urls  for  student view attendance
 
+    path('student/view-attendance', views.StudentViewAttendance,name='student-view-attendance'),
 
 
 

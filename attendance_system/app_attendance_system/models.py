@@ -138,8 +138,8 @@ class Attendance(models.Model):
         return self.subject_id.name
     
 class Attendance_Report(models.Model):
-    subject_id=models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
-    attendace_id= models.ForeignKey(Attendance, on_delete=models.CASCADE)
+    student_id=models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    attendance_id= models.ForeignKey(Attendance, on_delete=models.CASCADE)
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 

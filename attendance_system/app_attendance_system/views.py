@@ -813,7 +813,7 @@ def StaffSaveAttendance(request):
         )
         attendance.save()
 
-        for i in  student:
+        for i in student_id:
             stud_id = i
             int_stud=int(stud_id)
 
@@ -823,4 +823,49 @@ def StaffSaveAttendance(request):
                 attendance_id=attendance,
             )
             attendance_report.save()
+            messages.success(request, "You're Attendance Has Taken Successfully.")
             return redirect('staff-take-attendance')
+
+
+def StaffviewAttendance(request):
+    staff_id  = Staff.objects.get(admin=request.user.id)
+    subject = Subject.objects.filter(staff_id  =staff_id)
+    session_year= Session_Year.objects.all()
+
+    action = request.GET.get('action')
+
+    get_subject=None
+    get_session_year=None
+    attendance_date=None
+    attendance_report=None
+
+    if  action  is not None:
+        if  request.method == 'POST':
+            subject_id=request.POST.get('subject_id')
+            session_year_id=request.POST.get('session_year_id')
+            attendance_date= request.POST.get('attendance_date')
+
+            get_subject= Subject.objects.get(id=subject_id)
+            get_session_year=Session_Year.objects.get(id=session_year_id)
+
+            attendance= Attendance.objects.filter(subject_id=get_subject, attendance_date=attendance_date)
+            for i in attendance:
+                attendance_id=i.id
+                attendance_report=Attendance_Report.objects.filter(attendance_id=attendance_id)
+
+
+    context = {
+        'subject':subject,
+        'session_year':session_year,
+        'action':action,
+        'get_subject':get_subject,
+        'get_session_year':get_session_year,
+        'attendance_date':attendance_date,
+        'attendance_report':attendance_report,
+    }
+    return render(request,'staff/staff_view_attendance.html',context)
+
+# Student view Attendance
+
+def StudentViewAttendance(request):
+    return render(request, 'student/student_view_attendance.html')
