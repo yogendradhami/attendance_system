@@ -1,5 +1,18 @@
-{% extends "layouts/master.html" %} {% load static %} {% block title %} Add
-Subject {% endblock title %} {% block style_css %} {% endblock style_css %}
+{% extends "layouts/master.html" %}
+
+{% load static %} 
+
+{% block title %}
+
+Add Subject 
+
+{% endblock title %} 
+
+{% block style_css %} 
+
+{% endblock style_css %}
+
+
 {%block content %}
 
 <div class="content container-fluid">
@@ -42,7 +55,7 @@ Subject {% endblock title %} {% block style_css %} {% endblock style_css %}
                      <select class="form-control" name="cource_id" required >
                         <option>Select Cource</option>
                         {% for i in cource %}
-                        <option value= {{i.id}}>{{i.name}}</option>
+                        <option value= "{{i.id}}">{{i.name}}</option>
                         {% endfor %}
                         
                         
@@ -55,7 +68,7 @@ Subject {% endblock title %} {% block style_css %} {% endblock style_css %}
                    <select class="form-control" name="staff_id" required >
                       <option>Select Staff</option>
                       {% for i in staff %}
-                      <option value= {{i.id}}>{{i.admin.first_name}}&nbsp;{{i.admin.last_name}}</option>
+                      <option value= "{{i.id}}">{{i.admin.first_name}}&nbsp;{{i.admin.last_name}}</option>
                       {% endfor %}
                       
                       
@@ -74,4 +87,6 @@ Subject {% endblock title %} {% block style_css %} {% endblock style_css %}
       </div>
     </div>
   </div>
-{% endblock %}
+
+
+  {% endblock %}

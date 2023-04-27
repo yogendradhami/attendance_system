@@ -85,6 +85,10 @@ urlpatterns = [
     path('staff/feedback/', views.StaffFeedback,name='staff-feedback'),
     path('staff/save-feedback', views.StaffSaveFeedback,name='save-feedback'),
 
+    # for staff attendace
+    path('staff/take-attendance', views.StaffTakeAttendance,name='staff-take-attendance'),
+    path('staff/save-attendance', views.StaffSaveAttendance,name='staff-save-attendance'),
+
 
     # urls for student
     path('student/home', views.StudentHome,name='student-home'),

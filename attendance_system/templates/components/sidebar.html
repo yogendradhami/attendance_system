@@ -192,6 +192,8 @@
                 </ul>
              </li> {% endcomment %}
           </ul>
+
+          //staff sidebar
           {% elif user.user_type == '2' %}
           <ul>
             <li class="menu-title">
@@ -200,8 +202,8 @@
             <li class="{% active_link 'hod' 'active' %}">
               <a href="{% url 'hod' %}"><i class="fas fa-holly-berry"></i> <span>Dashboard</span></a>
            </li>
-            <li class="{% active_link '' 'active' %}">
-              <a href="#"><i class="fas fa-calendar-alt"></i> <span>Take Attendance</span></a>
+            <li class="{% active_link 'staff-take-attendance' 'active' %}">
+              <a href="{% url 'staff-take-attendance' %}"><i class="fas fa-calendar-alt"></i> <span>Take Attendance</span></a>
            </li>
             <li class="{% active_link '' 'active' %}">
               <a href="#"><i class="as fa-calendar-alt"></i> <span>View & Update Attendance</span></a>

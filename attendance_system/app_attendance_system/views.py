@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback,Student_Leave
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback,Student_Leave, Attendance,Attendance_Report
 from django.contrib import messages
 
 # Create your views here.
@@ -757,3 +757,70 @@ def StudentDisapproveLeave(request, id):
     leave.save()
 
     return redirect('student-leave-view')
+
+
+# staff take attendance
+
+def StaffTakeAttendance(request):
+    staff_id = Staff.objects.get(admin= request.user.id)
+
+    subject= Subject.objects.filter(staff=staff_id)
+    session_year=Session_Year.objects.all()
+
+    action =request.GET.get('action')
+    
+    get_session_year=None
+    get_subject=None
+    students=None
+    if action is not None:
+        if request.method == 'POST':
+            subject_id=request.POST.get('subject_id')
+            session_year_id= request.POST.get('session_year_id')
+            get_subject= Subject.objects.get(id=subject_id)
+            get_session_year= Session_Year.objects.get(id= session_year_id)
+
+            subject= Subject.objects.filter(id=subject_id)
+            for i in subject:
+                student_id= i.cource.id
+                students= Student.objects.filter(cource_id=student_id)
+
+    context = {
+        'subject':subject,
+        'session_year':session_year,
+        'get_session_year':get_session_year,
+        'get_subject':get_subject,
+        'action':action,
+        'students':students,
+
+    }
+    return render(request,'staff/staff_take_attendance.html',context)
+
+def StaffSaveAttendance(request):
+    if request.method == 'POST':
+        subject_id=request.POST.get('subject_id')
+        session_year_id =request.POST.get('session_year_id')
+        attendance_date=request.POST.get('attendance_date')
+        student_id=request.POST.getlist('student_id')
+        
+        get_subject= Subject.objects.get(id=subject_id)
+            
+        get_session_year= Session_Year.objects.get(id= session_year_id)
+
+        attendance = Attendance(
+            subject_id=get_subject,
+            attendance_date=attendance_date,
+            session_year_id=get_session_year
+        )
+        attendance.save()
+
+        for i in  student:
+            stud_id = i
+            int_stud=int(stud_id)
+
+            p_students=Student.objects.get(id=int_stud)
+            attendance_report=Attendance_Report(
+                student_id=p_students,
+                attendance_id=attendance,
+            )
+            attendance_report.save()
+            return redirect('staff-take-attendance')
