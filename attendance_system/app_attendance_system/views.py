@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback,Student_Leave, Attendance,Attendance_Report
+from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback,Student_Leave, Attendance,Attendance_Report,StudentResult
 from django.contrib import messages
 
 # Create your views here.
@@ -890,3 +890,73 @@ def StudentViewAttendance(request):
 
     }
     return render(request, 'student/student_view_attendance.html',context)
+
+
+def HodStudentAttendanceView(request):
+    subject = Subject.objects.all()
+    session_year= Session_Year.objects.all()
+
+    action = request.GET.get('action')
+
+    get_subject=None
+    get_session_year=None
+    attendance_date=None
+    attendance_report=None
+
+    if  action  is not None:
+        if  request.method == 'POST':
+            subject_id=request.POST.get('subject_id')
+            session_year_id=request.POST.get('session_year_id')
+            attendance_date= request.POST.get('attendance_date')
+
+            get_subject= Subject.objects.get(id=subject_id)
+            get_session_year=Session_Year.objects.get(id=session_year_id)
+
+            attendance= Attendance.objects.filter(subject_id=get_subject, attendance_date=attendance_date)
+            for i in attendance:
+                attendance_id=i.id
+                attendance_report=Attendance_Report.objects.filter(attendance_id=attendance_id)
+
+
+    context = {
+        'subject':subject,
+        'session_year':session_year,
+        'action':action,
+        'get_subject':get_subject,
+        'get_session_year':get_session_year,
+        'attendance_date':attendance_date,
+        'attendance_report':attendance_report,
+    }
+    return render(request, 'hod/hod_view_attendance.html',
+    context)
+
+def StaffAddResult(request):
+    staff=Staff.objects.get(admin=request.user.id)
+    subjects= Subject.objects.filter(staff_id=staff)
+    session_year= Session_Year.objects.all()
+    action = request.GET.get('action')
+    get_subject = None
+    get_session=None
+    students = None
+    if action is not None:
+        if request.method == 'POST':
+            subject_id=request.POST.get('subject_id')
+            session_year_id= request.POST.get('session_year_id')
+            get_subject=Subject.objects.get(id=subject_id)
+            get_session=Session_Year.objects.get(id=session_year_id)
+
+            subject= Subject.objects.filter(id=subject_id)
+            for i in subject:
+                student_id=i.cource.id
+                students= Student.objects.filter(cource_id=student_id)
+
+    context= {
+        'subjects':subjects,
+        'session_year':session_year,
+        'action':action,
+        'get_subject':get_subject,
+        'get_session':get_session,
+        'students':students,
+        
+        }
+    return render(request,'staff/staff_add_result.html',context)

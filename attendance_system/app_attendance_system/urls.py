@@ -69,6 +69,9 @@ urlpatterns = [
     path("hod/staff/approve-leave/<str:id>/", views.StaffApproveLeave, name="staff-approve-leave"),
     path("hod/staff/diapprove-leave/<str:id>/", views.StaffDisapproveLeave, name="staff-disapprove-leave"),
 
+    # hod student  attendance view
+    path("hod/student/view-attendance/", views.HodStudentAttendanceView, name="hod-student-view-attendance"),
+
     # hod student leave url
     path("hod/student/leave-view/", views.StudentLeaveView, name="student-leave-view"),
     path("hod/student/approve-leave/<str:id>/", views.StudentApproveLeave, name="student-approve-leave"),
@@ -90,6 +93,10 @@ urlpatterns = [
     path('staff/save-attendance', views.StaffSaveAttendance,name='staff-save-attendance'),
     path('staff/view-attendance', views.StaffviewAttendance,name='staff-view-attendance'),
 
+    # for staff result
+    path('staff/add-result', views.StaffAddResult,name='staff-add-result'),
+    path('staff/view-result', views.StaffViewResult,name='staff-view-result'),
+
 
     # urls for student
     path('student/home', views.StudentHome,name='student-home'),
@@ -107,7 +114,8 @@ urlpatterns = [
 
     path('student/view-attendance', views.StudentViewAttendance,name='student-view-attendance'),
 
-
+    # url for view result
+    # path('student/view-attendance', views.StudentViewAttendance,name='student-view-attendance'),
 
 
 ]
