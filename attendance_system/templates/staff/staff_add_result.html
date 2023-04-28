@@ -69,7 +69,7 @@ Add Result
                </div>
       </form>
       {% else %}
-      <form method="post" action="">
+      <form method="post" action="{% url 'staff-save-result' %}">
           {% csrf_token %}
                <div class="row">
                   <div class="col-sm-12">
@@ -122,7 +122,7 @@ Add Result
                                   <div class="col-12 col-sm-6">
                                  <div class="form-group">
                                         <label>Exam Marks</label>
-                                       <input type="number" class="form-control" name="Exam_mark">
+                                       <input type="number" class="form-control" name="exam_mark">
 
                                   </div>
                                   </div>

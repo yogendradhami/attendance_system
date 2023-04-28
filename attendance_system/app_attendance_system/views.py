@@ -930,6 +930,9 @@ def HodStudentAttendanceView(request):
     return render(request, 'hod/hod_view_attendance.html',
     context)
 
+
+# staff add result
+
 def StaffAddResult(request):
     staff=Staff.objects.get(admin=request.user.id)
     subjects= Subject.objects.filter(staff_id=staff)
@@ -960,3 +963,52 @@ def StaffAddResult(request):
         
         }
     return render(request,'staff/staff_add_result.html',context)
+
+
+def StaffSaveResult(request):
+    if  request.method  == 'POST':
+        subject_id=request.POST.get('subject_id')
+        session_year_id=request.POST.get('session_year_id')
+        student_id=request.POST.get('student_id')
+        assignment_mark=request.POST.get('assignment_mark')
+        exam_mark=request.POST.get('exam_mark')
+
+        get_student= Student.objects.get(admin=student_id)
+        get_subject= Subject.objects.get(id=subject_id)
+
+        check_exists= StudentResult.objects.filter(subject_id=get_subject,student_id=get_student).exists()
+        if check_exists:
+            result=StudentResult.objects.get(subject_id=get_subject, student_id=get_student)
+            result.assignment_mark=  assignment_mark
+            result.exam_mark=exam_mark
+            result.save()
+            messages.success(request, "Results Are Successfully Updated.")
+            return redirect('staff-add-result')
+        else:
+            result= StudentResult(
+                student_id = get_student,
+                subject_id=get_subject,
+                exam_mark=exam_mark,
+                assignment_mark=assignment_mark,
+            )
+            result.save()
+            messages.success(request, "Results Are Successfully Added.")
+            return redirect('staff-add-result')
+        
+# student result view
+
+def StudentViewResult(request):
+    mark= None
+    student=Student.objects.get(admin=request.user.id)
+    
+    result= StudentResult.objects.filter(student_id=student)
+    for i in result:
+        assignment_mark= i.assignment_mark
+        exam_mark=i.exam_mark
+
+        mark= assignment_mark + exam_mark
+    context = {
+        'result':result,
+        'mark':mark,
+    }
+    return render(request, 'student/student_view_result.html',context)

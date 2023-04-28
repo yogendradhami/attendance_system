@@ -94,8 +94,8 @@ urlpatterns = [
     path('staff/view-attendance', views.StaffviewAttendance,name='staff-view-attendance'),
 
     # for staff result
-    path('staff/add-result', views.StaffAddResult,name='staff-add-result'),
-    path('staff/view-result', views.StaffViewResult,name='staff-view-result'),
+    path('staff/add-result/', views.StaffAddResult,name='staff-add-result'),
+    path('staff/save-result/', views.StaffSaveResult,name='staff-save-result'),
 
 
     # urls for student
@@ -115,7 +115,7 @@ urlpatterns = [
     path('student/view-attendance', views.StudentViewAttendance,name='student-view-attendance'),
 
     # url for view result
-    # path('student/view-attendance', views.StudentViewAttendance,name='student-view-attendance'),
+    path('student/view-result', views.StudentViewResult,name='student-view-result'),
 
 
 ]
