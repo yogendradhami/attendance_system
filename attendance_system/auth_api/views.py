@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, StaffSerializer
 
 # this code for login logout and register
 from django.contrib.auth import login
@@ -17,6 +17,9 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from .serializers import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated 
+
+from rest_framework.views import APIView
+from app_attendance_system.models import Staff,CustomUser
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -80,3 +83,76 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# api for staff
+class CustomResponse():
+    def successResponse(self,code,msg,data = dict()):
+        context = {
+            'status_code':code,
+            'message':msg,
+            'data':data,
+            'error':[]
+        }
+        return context
+    
+    def errorResponse(self,code, msg,error=dict()):
+        context = {
+            'code':code,
+            'message':msg,
+            'data':[],
+            'error':error
+        }
+        return context
+    
+
+class StaffApiView(APIView):
+    def get(self,request):
+        staff=Staff.objects.all()
+        
+        serializer= StaffSerializer(staff,many=True)
+        
+
+        return Response(CustomResponse.successResponse(200,"Staff List", serializer.data), status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer= StaffSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return render(CustomResponse.successResponse(200, "Added successfully."),status=status.HTTP_200_OK)
+        else:
+            return Response(CustomResponse.successResponse(200," Validation Error.", serializer.errors))
+        
+class StaffApiIdView(APIView):
+    def get_object(self,request,id):
+        try:
+            data = Staff.objects.get(id=id)
+            return data
+        except Staff.DoesNotExist:
+            return None
+        
+    def get(self,request,id):
+        instance= self.get_object(id=id)
+        
+        if not instance:
+            return Response({"msg":"Not Found"},status=status.HTTP_404_NOT_FOUND)
+        
+        serializer= StaffSerializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    def put(self,request,id):
+        instance= self.get_object(id=id)
+
+        if not instance:
+            return Response({"msg":"Not Found."},status=status.HTTP_404_NOT_FOUND)
+        serializer=StaffSerializer(data=request,instance=instance)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.errors,status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request,id):
+        pass
+
+    

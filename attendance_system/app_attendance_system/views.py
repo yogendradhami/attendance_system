@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from app_attendance_system.models import CustomUser,Cource,Student,Session_Year,Staff,Subject,Staff_Notification, Staff_Leave,Staff_feedback,Student_Notification, Student_Feedback,Student_Leave, Attendance,Attendance_Report,StudentResult
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def Index(request):
@@ -279,7 +280,7 @@ def HodAddStaff(request):
 
 def hodViewStaff(request):
     staff= Staff.objects.all()
-    print(staff)
+    # print(staff)
     context={
         'staff':staff
     }
