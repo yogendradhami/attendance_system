@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from app_attendance_system.models import Staff
+from app_attendance_system.models import Staff,Student
 
 
 # User Serializer
@@ -38,4 +38,9 @@ class ChangePasswordSerializer(serializers.Serializer):
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
         model= Staff
+        fields= "__all__"
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Student
         fields= "__all__"
